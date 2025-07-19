@@ -1,0 +1,6 @@
+streamlit
+pydantic
+pillow
+opencv-python
+pytesseract
+pdf2image
