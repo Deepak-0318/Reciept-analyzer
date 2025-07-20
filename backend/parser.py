@@ -75,7 +75,7 @@ def parse_date(text):
                 except ValueError:
                     continue
 
-    print("⚠️ Warning: No date found in receipt. Using current date instead.")
+    print("Warning: No date found in receipt. Using current date instead.")
     return datetime.today()
 
 def parse_amount(text):
@@ -99,7 +99,7 @@ def extract_fields(raw_text):
     try:
         date = parse_date(raw_text)
     except Exception as e:
-        print("⚠️ Could not parse date, using current date. Reason:", e)
+        print(" Could not parse date, using current date. Reason:", e)
         date = datetime.today()
 
     amount = parse_amount(raw_text)
@@ -138,7 +138,7 @@ if __name__ == "__main__":
         # Insert into DB
         initialize_db()
         insert_receipt(receipt)
-        print("✅ Receipt inserted into the database")
+        print(" Receipt inserted into the database")
 
     except Exception as e:
-        print("❌ Error:", e)
+        print(" Error:", e)

@@ -88,20 +88,20 @@ def aggregate_by_month():
 
 # --- Optional: test run ---
 if __name__ == "__main__":
-    print("🔍 Search for vendor 'amazon':")
+    print("Search for vendor 'amazon':")
     for r in search_receipts("amazon"):
         print(r)
 
-    print("\n📅 Filter by date:")
+    print("\n Filter by date:")
     for r in filter_receipts_by_date(datetime(2023, 1, 1), datetime(2025, 12, 31)):
         print(r)
 
-    print("\n⬆️ Sorted by amount descending:")
+    print("\nSorted by amount descending:")
     for r in sort_receipts(by="amount", order="desc"):
         print(r)
 
-    print("\n📊 Total spend by category:")
+    print("\nTotal spend by category:")
     print(aggregate_by_category())
 
-    print("\n📈 Total spend by month:")
+    print("\nTotal spend by month:")
     print(aggregate_by_month())
