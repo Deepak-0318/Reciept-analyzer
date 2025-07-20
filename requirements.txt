@@ -1,0 +1,8 @@
+streamlit
+pytesseract
+Pillow
+python-dateutil
+pdfplumber
+sqlalchemy
+pandas
+opencv-python

@@ -4,13 +4,29 @@ import streamlit as st
 import os
 import sys
 from datetime import datetime
+import importlib.util
 
-# Add backend path to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend')))
+# Get the absolute path of the project root directory
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-from ingestion import extract_text
-from parser import extract_fields
-from database import insert_receipt, initialize_db
+# Ensure the backend directory is in the Python path
+backend_dir = os.path.join(project_root, 'backend')
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
+try:
+    from ingestion import extract_text
+    from parser import extract_fields
+    from database import insert_receipt, initialize_db
+except ImportError as e:
+    st.error(f"""
+    Failed to import required modules. Please make sure you have:
+    1. Installed all requirements: `pip install -r requirements.txt`
+    2. Installed Tesseract OCR on your system
+    3. Added Tesseract to your PATH
+    
+    Error: {str(e)}
+    """)
 
 st.set_page_config(page_title="Receipt Uploader", layout="centered")
 
@@ -49,7 +65,16 @@ if uploaded_file is not None:
         st.success("✅ Receipt saved to database!")
 
     except Exception as e:
-        st.error(f"❌ Error: {e}")
-
+        st.error(f"""
+        ❌ Error processing receipt: {str(e)}
+        
+        If this is a Tesseract error, please make sure:
+        1. Tesseract OCR is installed on your system
+        2. The PATH environment variable includes Tesseract
+        3. The image is clear and readable
+        """)
+    
     finally:
-        os.remove(file_path)
+        # Clean up temporary file
+        if os.path.exists(file_path):
+            os.remove(file_path)
